@@ -55,4 +55,21 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// API endpoint to fetch page data by category
+router.get("/search/:category", async (req, res) => {
+  // Retrieve category name from URL parameter and replace '+' with ' ' for searching in the database
+  const category = req.params.category.replace(/\+/g, ' ');
+  try {
+    // Query the database to find pages with the specified category
+    const pages = await Page.find({ category: category });
+
+    res.json(pages);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+module.exports = router;
+
 module.exports = router;
